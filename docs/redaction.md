@@ -5,7 +5,8 @@ using the `redact` option. Note that paths that contain hyphens need to use
 brackets to access the hyphenated property:
 
 ```js
-const logger = require('.')({\n  redact: ['key', 'path.to.key', 'stuff.thats[*].secret', 'path["with-hyphen"]']
+const logger = require('.')({
+  redact: ['key', 'path.to.key', 'stuff.thats[*].secret', 'path["with-hyphen"]']
 })
 
 logger.info({
@@ -34,7 +35,8 @@ an object. This allows control over *how* information is redacted.
 For instance, setting the censor:
 
 ```js
-const logger = require('.')({\n  redact: {
+const logger = require('.')({
+  redact: {
     paths: ['key', 'path.to.key', 'stuff.thats[*].secret'],
     censor: '**GDPR COMPLIANT**'
   }
@@ -63,7 +65,8 @@ This will output:
 The `redact.remove` option also allows for the key and value to be removed from output:
 
 ```js
-const logger = require('.')({\n  redact: {
+const logger = require('.')({
+  redact: {
     paths: ['key', 'path.to.key', 'stuff.thats[*].secret'],
     remove: true
   }

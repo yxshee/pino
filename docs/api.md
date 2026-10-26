@@ -210,9 +210,9 @@ const logger = pino({
 logger.info({
     description: 'Ok'
 }, 'Message 1')
-// {"level":30,"time":1591195061437,"pid":16012,"hostname":"x","description":"Ok","level-label":"info","msg":"Message 1"}
+// {"level":30,"time":1591195061437,"pid":16012,"hostname":"x","level-label":"info","description":"Ok","msg":"Message 1"}
 logger.error('Message 2')
-// {"level":30,"time":1591195061437,"pid":16012,"hostname":"x","level-label":"error","msg":"Message 2"}
+// {"level":50,"time":1591195061437,"pid":16012,"hostname":"x","level-label":"error","msg":"Message 2"}
 ```
 
 If the `mixin` feature is being used merely to add static metadata to each log message,
@@ -856,10 +856,10 @@ from `err` to another string as preferred.
 > mapped to a different key using the [`serializers`](#opt-serializers) option.
 ```js
 logger.info(new Error("test"))
-// {"level":30,"time":1531257618044,"msg":"test","stack":"...","type":"Error","pid":55956,"hostname":"x"}
+// {"level":30,"time":1531257618044,"pid":55956,"hostname":"x","err":{"type":"Error","message":"test","stack":"..."},"msg":"test"}
 
 logger.info({ err: new Error("test"), otherkey: 123 }, "some text")
-// {"level":30,"time":1531257618044,"err":{"msg": "test", "stack":"...","type":"Error"},"msg":"some text","pid":55956,"hostname":"x","otherkey":123}
+// {"level":30,"time":1531257618044,"pid":55956,"hostname":"x","err":{"type":"Error","message":"test","stack":"..."},"otherkey":123,"msg":"some text"}
 ```
 
 <a id="trace"></a>
@@ -1027,8 +1027,8 @@ const logger = require('pino')({ redact: ['hello'] })
 logger.info({ hello: 'world' })
 // {"level":30,"time":1625794363403,"pid":67930,"hostname":"x","hello":"[Redacted]"}
 const child = logger.child({ foo: 'bar' }, { redact: ['foo'] })
-logger.info({ hello: 'world' })
-// {"level":30,"time":1625794553558,"pid":67930,"hostname":"x","hello":"world", "foo": "[Redacted]" }
+child.info({ hello: 'world' })
+// {"level":30,"time":1625794553558,"pid":67930,"hostname":"x","foo":"[Redacted]","hello":"world"}
 ```
 
 * See [`redact` option](#opt-redact)
